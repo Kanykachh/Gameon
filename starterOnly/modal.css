@@ -67,6 +67,48 @@ img {
 .topnav .icon {
   display: none;
 }
+/* Style de la modal après validation */
+.modal-body.success {
+  height: 680px;
+  
+  text-align: center;
+  padding: 40px;
+  padding: 15px 8%;
+  margin: 15px auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.modal-body.success .modal-body-confirmation {
+  height: 60%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-body.success .modal-body-confirmation .btn-close {
+  width: 182px;
+}
+
+.modal-body.success h2 {
+  color: rgb(248, 251, 248);
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.modal-body.success .btn-close {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-body.success .btn-close:hover {
+  background-color: darkred;
+}
 
 @media screen and (max-width: 768px) {
   .topnav a {display: none;}
@@ -473,6 +515,18 @@ input[data-error]::after {
 .hero-section > .btn-signup {
   display: none;
 }
+/* Style pour encadrer le champ en rouge s'il est vide */
+input.error, input[type="checkbox"].error {
+  border: 2px solid red;
+}
+
+/* Style pour le message d'erreur */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
@@ -527,3 +581,9 @@ footer {
   }
 }
 
+.modal-body-form.disabled, .modal-body-confirmation.disabled {
+  display: none !important;
+}
+.modalContentConfirmation {
+  display: block;
+}
