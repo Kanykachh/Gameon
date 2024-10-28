@@ -1,4 +1,3 @@
-// Fonction pour gérer la barre de navigation responsive
 function editNav() {
   const x = document.getElementById("myTopnav"); 
   if (x.className === "topnav") { 
@@ -8,56 +7,82 @@ function editNav() {
   }
 }
 
-const modalbg = document.querySelector(".bground"); // La modale en arrière-plan
-const modalBtn = document.querySelectorAll(".modal-btn"); // Les boutons pour ouvrir la modale
-const closeBtn = document.querySelector(".close"); // Le bouton de fermeture de la modale
+const modalbg = document.querySelector(".bground"); 
+const modalBtn = document.querySelectorAll(".modal-btn"); 
+const closeBtn = document.querySelector(".close"); 
 
-// Lance la modale lorsque les boutons sont cliqués
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
 function launchModal() {
-  modalbg.style.display = "block"; // Affiche la modale
+  modalbg.style.display = "block"; 
 }
-
-// Fonction pour fermer la modale
+// Fonction pour fermer la modal
 function closeModal(event) {
   console.log(event)
   modalbg.style.display = "none";
-  displayForm() // Cache la modale
+  displayForm() 
 }
-
-closeBtn.addEventListener("click", closeModal); // Ajoute un écouteur d'événement au bouton span de fermeture
+closeBtn.addEventListener("click", closeModal); 
 
 const form = document.querySelector("form");
-
-// Sélectionner tous les champs de texte du formulaire
 const inputs = document.querySelectorAll(".text-control");
 
 // Fonction de validation
 function validate() {
-  let valid = true; // Variable pour suivre si le formulaire est valide
+  let valid = true; 
+   // Regex pour chaque champ et description en commentaire
+  const firstNameRegex = /^[a-zA-Z]{2,}$/; // Prénom : au moins 2 caractères alphabétiques
+  const lastNameRegex = /^[a-zA-Z]{2,}$/;  // Nom : au moins 2 caractères alphabétiques
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email : format valide
+  const quantityRegex = /^[0-9]+$/; // Quantité : chiffres seulement
 
-  // Validation des champs de texte (prénom, nom, etc.)
   inputs.forEach((input) => {
-    const errorMessage = input.nextElementSibling; // Message d'erreur à côté de l'input
+    const errorMessage = input.nextElementSibling; 
+    input.classList.remove("error"); 
+    if (errorMessage && errorMessage.classList.contains("error-message")) {
+      errorMessage.remove(); 
+    }
 
-    if (input.value.trim() === "") { // Si le champ est vide
-      valid = false; // Définit le formulaire comme invalide
-      input.classList.add("error"); // Ajoute la classe 'error'
-
-      if (!errorMessage || !errorMessage.classList.contains("error-message")) {
+    if (input.value.trim() === "") {
+      valid = false;
+      input.classList.add("error"); 
+      const errorSpan = document.createElement("span");
+      errorSpan.classList.add("error-message");
+      errorSpan.textContent = "Ce champ est requis.";
+      input.after(errorSpan); 
+    } else {
+      // Validation par regex
+      if (input.id === "first" && !firstNameRegex.test(input.value)) {
+        valid = false;
+        input.classList.add("error");
         const errorSpan = document.createElement("span");
         errorSpan.classList.add("error-message");
-        errorSpan.textContent = "Ce champ est requis.";
-        input.after(errorSpan); // Ajoute un message d'erreur
-      }
-    } else {
-      input.classList.remove("error"); // Retire l'erreur si le champ est rempli
-      if (errorMessage && errorMessage.classList.contains("error-message")) {
-        errorMessage.remove(); // Supprime le message d'erreur si corrigé
+        errorSpan.textContent = "Deux caractères minimum sont requis.";
+        input.after(errorSpan);
+      } else if (input.id === "last" && !lastNameRegex.test(input.value)) {
+        valid = false;
+        input.classList.add("error");
+        const errorSpan = document.createElement("span");
+        errorSpan.classList.add("error-message");
+        errorSpan.textContent = "Deux caractères minimum sont requis.";
+        input.after(errorSpan);
+      } else if (input.id === "email" && !emailRegex.test(input.value)) {
+        valid = false;
+        input.classList.add("error");
+        const errorSpan = document.createElement("span");
+        errorSpan.classList.add("error-message");
+        errorSpan.textContent = 'Veuillez inclure "@" dans l adresse mail ';
+        input.after(errorSpan);
+      } else if (input.id === "quantity" && !quantityRegex.test(input.value)) {
+        valid = false;
+        input.classList.add("error");
+        const errorSpan = document.createElement("span");
+        errorSpan.classList.add("error-message");
+        errorSpan.textContent = "Veuillez indiquer le nombre de tournois.";
+        input.after(errorSpan);
       }
     }
   });
+
   // Validation pour la sélection d'une ville
   const locationInputs = document.querySelectorAll('input[name="location"]');
   const locationError = document.querySelector(".location-error-message");
@@ -101,20 +126,20 @@ function validate() {
     }
   }
 
-  // Autres validations (cases à cocher, sélection de tournoi) sont similaires...
-  
-  return valid; // Retourne vrai si tout est valide, sinon faux
+  return valid; 
 }
 
-// Fonction pour afficher le message de confirmation et bouton rouge
+
+
+
 function showConfirmation() {
-  const modalContent = document.querySelector(".modal-body"); // Cible la div du contenu de la modal
+  const modalContent = document.querySelector(".modal-body"); 
   displayConfirmation()
 
-  // Ajout de la classe "success" pour changer le style
+ 
   modalContent.classList.add("success");
 
-  // Ajoute un écouteur d'événement au nouveau bouton de fermeture
+ 
   const closeBtn = document.querySelector(".btn-close");
   closeBtn.addEventListener("click", closeModal);
   //displayForm() // Ferme la modale avec le bouton rouge
@@ -124,7 +149,7 @@ function showConfirmation() {
 form.addEventListener("submit", function(event) {
   event.preventDefault(); // Empêche le comportement par défaut (soumission de page)
   if (validate()) {
-    showConfirmation(); // Affiche le message de confirmation si la validation est réussie
+    showConfirmation(); 
   }
 });
 
